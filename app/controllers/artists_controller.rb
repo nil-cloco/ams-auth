@@ -1,9 +1,9 @@
 class ArtistsController < ApplicationController
     before_action :authenticate_user!
     before_action :set_artist, only: %i[show update destroy]
+    before_action :set_artists, only: %i[index export]
   
     def index
-      @artists = Artist.select("artists.*, (SELECT COUNT(*) FROM musics WHERE musics.artist_id = artists.id) AS music_count")
       render json: @artists
     end
   
@@ -37,11 +37,35 @@ class ArtistsController < ApplicationController
       @artist.destroy
       head :no_content
     end
+
+    def import
+      file = params[:file]
+      
+      if file.blank?
+        render json: { error: "No file uploaded" }, status: :bad_request
+        return
+      end
+  
+      begin
+        Artist.from_csv(file)
+        render json: { message: "CSV imported successfully" }, status: :ok
+      rescue => e
+        render json: { error: e.message }, status: :unprocessable_entity
+      end
+    end
+
+    def export
+      send_data @artists.to_csv, filename: ['Artists', DateTime.now].join('_'), type: 'text/csv; charset=utf-8; header=present'
+    end
   
     private
   
     def set_artist
       @artist = Artist.find(params[:id])
+    end
+
+    def set_artists
+      @artists = Artist.select("artists.*, (SELECT COUNT(*) FROM musics WHERE musics.artist_id = artists.id) AS music_count")
     end
   
     def artist_params

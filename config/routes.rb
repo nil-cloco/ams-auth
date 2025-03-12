@@ -9,7 +9,12 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
   resources :users
-  resources :artists
+  resources :artists do
+    collection do
+      get :export
+      post :import
+    end
+  end
   resources :musics
 
   # namespace :users do 
