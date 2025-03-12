@@ -189,6 +189,7 @@ GEM
       racc (~> 1.4)
     orm_adapter (0.5.0)
     ostruct (0.6.1)
+    pagy (9.3.4)
     parallel (1.26.3)
     parser (3.3.7.1)
       ast (~> 2.4.1)
@@ -351,6 +352,7 @@ DEPENDENCIES
   devise-jwt
   jsonapi-serializer
   kamal
+  pagy
   pg (~> 1.1)
   puma (>= 5.0)
   rack-cors

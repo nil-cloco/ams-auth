@@ -4,9 +4,9 @@ class MusicsController < ApplicationController
   
     def index
       if params[:artist_id].present?
-        @music = Music.where(artist_id: params[:artist_id])
+        @pagy, @music = pagy(Music.where(artist_id: params[:artist_id]))
       else
-        @music = Music.all
+        @pagy, @music = pagy(Music.all)
       end
       render json: @music
     end

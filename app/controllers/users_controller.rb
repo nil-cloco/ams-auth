@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   
     # List all users (Only accessible by super_admin)
     def index
-      @users = User.all
+      @pagy, @users = pagy(User.all)
       render json: @users
     end
   
