@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
   resources :users
+  resources :artists
+  resources :musics
 
   # namespace :users do 
   # end
