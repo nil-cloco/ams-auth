@@ -3,11 +3,13 @@ class ArtistsController < ApplicationController
   before_action :set_artist, only: %i[show update destroy]
 
   def index
+    authorize Artist
     @pagy, @artists = pagy(Artist.select("artists.*, (SELECT COUNT(*) FROM musics WHERE musics.artist_id = artists.id) AS music_count"))
     render json: @artists
   end
 
   def show
+    authorize Artist
     if @artist
       music_count = @artist.music.count
       render json: @artist.as_json.merge({ music_count: music_count })
@@ -19,6 +21,7 @@ class ArtistsController < ApplicationController
 
   def create
     @artist = Artist.new(artist_params)
+    authorize Artist
     if @artist.save
       render json: @artist, status: :created
     else
@@ -27,6 +30,7 @@ class ArtistsController < ApplicationController
   end
 
   def update
+    authorize Artist
     if @artist.update(artist_params)
       render json: @artist
     else
@@ -35,11 +39,13 @@ class ArtistsController < ApplicationController
   end
 
   def destroy
+    authorize Artist
     @artist.destroy
     head :no_content
   end
 
   def import
+    authorize Artist
     file = params[:file]
     
     if file.blank?
@@ -56,6 +62,7 @@ class ArtistsController < ApplicationController
   end
 
   def export
+    authorize Artist
     @artists = Artist.all
     send_data @artists.to_csv, filename: ['Artists', DateTime.now].join('_'), type: 'text/csv; charset=utf-8; header=present'
   end
