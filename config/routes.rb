@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     collection do
       get :export
       post :import
+      get :options
     end
   end
   resources :musics

@@ -67,6 +67,12 @@ class ArtistsController < ApplicationController
     send_data @artists.to_csv, filename: ["Artists", DateTime.now].join("_"), type: "text/csv; charset=utf-8; header=present"
   end
 
+  def options
+    authorize Artist
+    @artists = Artist.order("id ASC").pluck(:id, :name).map { |id, name| { id: id, name: name } }
+    render json: @artists
+  end
+
   private
 
   def set_artist

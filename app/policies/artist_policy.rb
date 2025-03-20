@@ -27,4 +27,8 @@ class ArtistPolicy < ApplicationPolicy
   def export?
     user.super_admin? || user.artist_manager?
   end
+  
+  def options?
+    user.super_admin? || user.artist_manager?
+  end
 end

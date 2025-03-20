@@ -1,4 +1,3 @@
-# app/policies/application_policy.rb
 class ApplicationPolicy
     attr_reader :user, :record
   
@@ -7,7 +6,6 @@ class ApplicationPolicy
       @record = record
     end
   
-    # Define a default "scope" for the model records
     def scope
       Pundit.policy_scope!(user, record.class)
     end
@@ -16,7 +14,6 @@ class ApplicationPolicy
         false
     end
   
-    # Default rule for show and other actions
     def show?
       false
     end
@@ -30,14 +27,6 @@ class ApplicationPolicy
     end
   
     def destroy?
-      false
-    end
-
-    def import?
-      false
-    end
-
-    def export?
       false
     end
   end
