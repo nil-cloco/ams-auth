@@ -40,7 +40,13 @@ class MusicsController < ApplicationController
   private
 
   def set_music
-    @music = Music.find(params[:id])
+    begin
+      @music = Music.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => e
+      render json: {
+        error: e.to_s
+      }, status: :not_found
+    end
   end
 
   def music_params
