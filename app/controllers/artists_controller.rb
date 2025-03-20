@@ -4,7 +4,7 @@ class ArtistsController < ApplicationController
 
   def index
     authorize Artist
-    @pagy, @artists = pagy(Artist.select("artists.*, (SELECT COUNT(*) FROM musics WHERE musics.artist_id = artists.id) AS music_count"))
+    @pagy, @artists = pagy(Artist.select("artists.*, (SELECT COUNT(*) FROM musics WHERE musics.artist_id = artists.id) AS music_count").order("artists.id ASC"))
     render json: @artists
   end
 
@@ -47,7 +47,7 @@ class ArtistsController < ApplicationController
   def import
     authorize Artist
     file = params[:file]
-    
+
     if file.blank?
       render json: { error: "No file uploaded" }, status: :bad_request
       return
@@ -64,7 +64,7 @@ class ArtistsController < ApplicationController
   def export
     authorize Artist
     @artists = Artist.all
-    send_data @artists.to_csv, filename: ['Artists', DateTime.now].join('_'), type: 'text/csv; charset=utf-8; header=present'
+    send_data @artists.to_csv, filename: ["Artists", DateTime.now].join("_"), type: "text/csv; charset=utf-8; header=present"
   end
 
   private
