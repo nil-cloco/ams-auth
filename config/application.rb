@@ -41,5 +41,6 @@ module AmsAuth
     # Skip views, helpers and assets when generating a new resource.
     config.autoload_paths += Dir[Rails.root.join('app', 'policies', '*.rb')]
     config.api_only = true
+    config.exceptions_app = self.routes
   end
 end

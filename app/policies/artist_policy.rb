@@ -29,6 +29,6 @@ class ArtistPolicy < ApplicationPolicy
   end
   
   def options?
-    user.super_admin? || user.artist_manager?
+    user.super_admin? || user.artist_manager? || user.artist?
   end
 end

@@ -28,4 +28,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  get '404', :to => 'application#page_not_found'
 end
